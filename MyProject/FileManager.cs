@@ -200,5 +200,42 @@ namespace CommandLineApp
                 Console.WriteLine("Error reading directory!");
             }
         }
+
+        public static string GetFileNamePath()
+        {
+            try
+            {
+                foreach (string file in Directory.EnumerateFiles(folderPath))
+                {
+                    Console.WriteLine(file);
+                }
+                Console.Write("Enter file name (to retrieve): ");
+                string input = Console.ReadLine();
+                bool fileFound = false;
+                foreach (string file in Directory.EnumerateFiles(folderPath))
+                {
+                    if (Path.GetFileName(file) == input)
+                    {
+                        fileFound = true;
+                        return folderPath + "/" + input;
+                    }
+                }
+                if (!fileFound)
+                {
+                    return "";
+                }
+            }
+            catch (DirectoryNotFoundException)
+            {
+                Console.WriteLine("Error finding directory!");
+                return "";
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("Error reading directory!");
+                return "";
+            }
+            return "";
+        }
     }
 }
