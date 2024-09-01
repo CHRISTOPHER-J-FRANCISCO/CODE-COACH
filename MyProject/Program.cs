@@ -12,7 +12,7 @@ namespace CommandLineApp
         {
             Clear();
             Console.WriteLine("Welcome to Christopher J. Francisco's command-line app!");
-            string availableCommands = "Available commands: quit, holy-cow, create-file, display-file, edit-file";
+            string availableCommands = "Available commands: quit, holy-cow, create-file, display-file, edit-file, delete-file";
             string holy_cow = @"
  ________
 < MOOOO! >
@@ -41,15 +41,16 @@ namespace CommandLineApp
                         Clear();
                         Console.Write("Enter file name: ");
                         input = Console.ReadLine();
-                        CommandLineApp.FileManager.CreateFile(input);
+                        FileManager.CreateFile(input);
                         break;
                     case "display-file":
-                        CommandLineApp.FileManager.DisplayFile();
+                        FileManager.DisplayFile();
                         break;
                     case "edit-file":
-                        CommandLineApp.FileManager.EditFile();
+                        FileManager.EditFile();
                         break;
                     case "delete-file":
+                        FileManager.DeleteFile();
                         break;
                     default:
                         Clear();
