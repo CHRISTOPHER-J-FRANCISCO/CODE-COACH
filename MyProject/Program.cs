@@ -12,7 +12,7 @@ namespace CommandLineApp
         {
             Clear();
             Console.WriteLine("Welcome to Christopher J. Francisco's command-line app!");
-            string availableCommands = "Available commands: help, quit, holy-cow, create-file, display-file";
+            string availableCommands = "Available commands: quit, holy-cow, create-file, display-file, edit-file";
             string holy_cow = @"
  ________
 < MOOOO! >
@@ -23,16 +23,12 @@ namespace CommandLineApp
                (__)\       )\/\
                    ||----w |
                    ||     ||";
-            Console.WriteLine(availableCommands);
             while (true)
             {
+                Console.WriteLine(availableCommands);
                 string input = Console.ReadLine();
                 switch (input.ToLower())
                 {
-                    case "help":
-                        Clear();
-                        Console.WriteLine(availableCommands);
-                        break;
                     case "quit":
                         Clear();
                         Console.WriteLine("x_x");
@@ -50,13 +46,13 @@ namespace CommandLineApp
                     case "display-file":
                         CommandLineApp.FileManager.DisplayFile();
                         break;
-                    case "update-file":
+                    case "edit-file":
+                        CommandLineApp.FileManager.EditFile();
                         break;
                     case "delete-file":
                         break;
                     default:
                         Clear();
-                        Console.WriteLine("Type 'help'.");
                         break;
                 }
             }
