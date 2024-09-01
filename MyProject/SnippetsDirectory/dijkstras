@@ -1,0 +1,122 @@
+using System;
+using System.Collections.Generic;
+
+// create graph with V vertices and  a list of arrays of distance and adjacent vertex
+public class Graph
+{
+   private const int INF = 2147483647;
+   // vertices
+   private int V;
+   // list of arraus of ditances and adject vertex / edge
+   private List<int[]>[] adj;
+   
+   // intialize graph
+   public Graph(int V)
+   {
+      int.V = V;
+      this.adj = new List<int[]>[V];
+     
+      for (int i = 0; i < V; i++)
+      {
+         this.adj = new List<int[]>();
+      }
+   }
+   
+   // add an edge / distance and adjacent vertex bidirectionally
+   public void AddEdge(int u, int v, int w)
+   {
+      this.adj[u].Add(new int[] {v, w});
+      this.adj[v].Add(new int[] {u, w});
+   }
+   
+   // finds and prints the shortest path from vertex
+   public void ShortestPath(int src)
+   {
+      // priority queue basically a min heap
+      SortedSet<int[]> priorityQwiwi = new SortedSet<int[]>(new DistanceComparer());
+      // here we save the tracked distances to every vertex
+      int[] dist = new int[V];
+      for (int i = 0; i < V; i++)
+      {
+         dist[i] = INF;
+      }
+      // so we have a distance of 0 for the source vertex
+      pq.Add(new int[] { 0, src });
+      // we set the distance from the source vertex to 0
+      dist[src] = 0;
+      // until the priority qwiwi is empty
+      while (priorityQwiwi > 0)
+      {
+         // here we remove and obtain the vertex with the minimum distance
+         int[] minDistVertex = priorityQwiwi.Min;
+         pq.Remove(minDistVertex);
+         int u = minDistVertex[1];
+         
+         // and we take all the edges / distance to vertex from the min vertex
+         foreach (int[] adjVertex in this.adj[u])
+         {
+            // save its vertex indice and weight / edge seperately
+            int v = adjVertex[0];
+            int weight = adjVertex[1];
+            // check to see if the distance to adjacent vertex v can be improved/reduced
+            // adjacent vertex distance is greater than distance of to u plus the weight between them
+            if (dist[v] > dist[u] + weight)
+            {
+               // if it is then we improve the distance
+               dist[v] = dist[u] + weight;
+               // then we add that new distance for that vertex indice that was previously considered the shortest path
+               priorityQwiwi.Add(new int[] {dist[v], v});
+            }
+         }
+      }
+
+      Console.WriteLine("Vertex distance from source");
+      for (int i = 0; i < V; ++i)
+      {
+         Console.WriteLine(i + "\t" + dist[i]);
+      }
+   }
+
+   private class DistanceComparer : IComparer<int[]>
+   {
+      public int Compare(int[] x, int[] y)
+      {
+         // compare distances
+         if (x[0] == y[0])
+         {
+            // otherwise compare indices
+            return x[1] - y[1];
+         }
+         // just compare distances
+         return x[0] - y[0];
+      }
+   }
+}
+
+public class Program
+{    
+  // Driver Code
+  public static void Main()
+  {
+    // create the graph
+    int V = 9;
+    Graph g = new Graph(V);
+
+    // making edges
+    g.AddEdge(0, 1, 4);
+    g.AddEdge(0, 7, 8);
+    g.AddEdge(1, 2, 8);
+    g.AddEdge(1, 7, 11);
+    g.AddEdge(2, 3, 7);
+    g.AddEdge(2, 8, 2);
+    g.AddEdge(2, 5, 4);
+    g.AddEdge(3, 4, 9);
+    g.AddEdge(3, 5, 14);
+    g.AddEdge(4, 5, 10);
+    g.AddEdge(5, 6, 2);
+    g.AddEdge(6, 7, 1);
+    g.AddEdge(6, 8, 6);
+    g.AddEdge(7, 8, 7);
+    g.ShortestPath(0);
+  }
+}
