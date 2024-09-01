@@ -38,10 +38,7 @@ namespace CommandLineApp
                         Console.WriteLine(holy_cow);
                         break;
                     case "create-file":
-                        Clear();
-                        Console.Write("Enter file name: ");
-                        input = Console.ReadLine();
-                        FileManager.CreateFile(input);
+                        FileManager.CreateFile();
                         break;
                     case "display-file":
                         FileManager.DisplayFile();
@@ -53,6 +50,7 @@ namespace CommandLineApp
                         FileManager.DeleteFile();
                         break;
                     case "code-coach":
+                        CodeCoach.startCoaching(FileManager.GetFileNamePath());
                         break;
                     default:
                         Clear();
