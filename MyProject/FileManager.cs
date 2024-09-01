@@ -66,7 +66,7 @@ namespace CommandLineApp
                 }
                 if (!fileFound)
                 {
-                    Console.Write(input + " not found!");
+                    Console.WriteLine(input + " not found!");
                 }
             }
             catch (DirectoryNotFoundException)
@@ -111,6 +111,7 @@ namespace CommandLineApp
                     break;
                 }
             }
+            // Save editing file
             Console.WriteLine();
             Console.WriteLine(filePath + " saved!");
             File.WriteAllText(filePath, fileContents);
@@ -138,7 +139,54 @@ namespace CommandLineApp
                 }
                 if (!fileFound)
                 {
-                    Console.Write(input + " not found!");
+                    Console.WriteLine(input + " not found!");
+                }
+            }
+            catch (DirectoryNotFoundException)
+            {
+                Console.WriteLine("Error finding directory!");
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("Error reading directory!");
+            }
+        }
+
+        public static void ActuallyDeleteFile(string filePathName)
+        {
+            try
+            {
+                File.Delete(filePathName);
+                Console.WriteLine(filePathName + " deleted!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error deleting file: " + ex.Message);
+            }
+        }
+
+        public static void DeleteFile()
+        {
+            try
+            {
+                foreach (string file in Directory.EnumerateFiles(folderPath))
+                {
+                    Console.WriteLine(file);
+                }
+                Console.Write("Enter file name (to delete): ");
+                string input = Console.ReadLine();
+                bool fileFound = false;
+                foreach (string file in Directory.EnumerateFiles(folderPath))
+                {
+                    if (Path.GetFileName(file) == input)
+                    {
+                        fileFound = true;
+                        ActuallyDeleteFile(folderPath + "/" + input);
+                    }
+                }
+                if (!fileFound)
+                {
+                    Console.WriteLine(input + " not found!");
                 }
             }
             catch (DirectoryNotFoundException)
