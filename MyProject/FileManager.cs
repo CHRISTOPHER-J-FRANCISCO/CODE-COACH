@@ -3,7 +3,6 @@ using System.IO;
 
 namespace CommandLineApp
 {
-
     public class FileManager
     {
         private static string folderPath = "SnippetsDirectory";
@@ -23,8 +22,11 @@ namespace CommandLineApp
         }
 
         // Creates a file given the file name path
-        public static void CreateFile(string fileName)
+        public static void CreateFile()
         {
+            Console.Clear();
+            Console.Write("Enter file name: ");
+            string fileName = Console.ReadLine();
             EnsureFolderExists();
             File.Create(folderPath + "/" + fileName);
             Console.WriteLine(folderPath + "/" + fileName + " created!");

@@ -12,7 +12,7 @@ namespace CommandLineApp
         {
             Clear();
             Console.WriteLine("Welcome to Christopher J. Francisco's command-line app!");
-            string availableCommands = "Available commands: quit, holy-cow, create-file, display-file, edit-file, delete-file";
+            string availableCommands = "Available commands: quit, holy-cow, create-file, display-file, edit-file, delete-file, code-coach";
             string holy_cow = @"
  ________
 < MOOOO! >
@@ -51,6 +51,8 @@ namespace CommandLineApp
                         break;
                     case "delete-file":
                         FileManager.DeleteFile();
+                        break;
+                    case "code-coach":
                         break;
                     default:
                         Clear();
