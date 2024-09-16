@@ -159,6 +159,7 @@ namespace CommandLineApp
                 Console.Write("Enter file name (to retrieve): ");
                 // Obtain input
                 string input = Console.ReadLine();
+                // Make sure input is not null or empty
                 if (string.IsNullOrEmpty(input))
                 {
                     Console.WriteLine("File name cannot be null or empty.");
