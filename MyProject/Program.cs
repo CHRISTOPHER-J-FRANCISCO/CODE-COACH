@@ -4,15 +4,10 @@ namespace CommandLineApp
 {
     class Program
     {
-        // clear the console
-        static void Clear() {
-            Console.Clear();
-        }
-
         // introduce the user with a welcome
         static void Main(string[] args)
         {
-            Clear();
+            Console.Clear();
             Console.WriteLine("Welcome to Christopher J. Francisco's command-line app!");
             // instructions
             string availableCommands = "Available commands: quit, holy-cow, create-file, display-file, edit-file, delete-file, code-coach\nEnter a command: ";
@@ -46,12 +41,12 @@ namespace CommandLineApp
                 {
                     // quit program
                     case "quit":
-                        Clear();
+                        Console.Clear();
                         Console.WriteLine("x_x");
                         return;
                     // print a holy cow
                     case "holy-cow":
-                        Clear();
+                        Console.Clear();
                         Console.WriteLine(holy_cow);
                         break;
                     // allow user to create a file
@@ -76,7 +71,7 @@ namespace CommandLineApp
                         break;
                     // just clear the console
                     default:
-                        Clear();
+                        Console.Clear();
                         break;
                 }
             }
