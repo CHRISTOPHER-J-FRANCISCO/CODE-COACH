@@ -162,6 +162,7 @@ namespace CommandLineApp
             }
         }
 
+        // delete file given name path provided by the user
         public static void DeleteFile()
         {
             string filePathName = GetFileNamePath();
