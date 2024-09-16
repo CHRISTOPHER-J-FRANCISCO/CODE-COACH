@@ -28,13 +28,26 @@ namespace CommandLineApp
         {
             // Prompot the file name
             Console.Clear();
-            Console.Write("Enter file name: ");
-            string fileName = Console.ReadLine();
             // Ensure the storage folder exists
             EnsureFolderExists();
-            // Let the user know the file has been created
-            File.Create(folderPath + "/" + fileName);
-            Console.WriteLine(folderPath + "/" + fileName + " created!");
+            Console.Write("Enter file name: ");
+            // Get file name
+            string fileName = Console.ReadLine();
+            // Create file path
+            string filePath = Path.Combine(folderPath, fileName);
+            // Attempts to create file
+            try
+            {
+                // Using ensures the File created is closed
+                using(File.Create(filePath)) {};
+                // Let the user know the file has been created
+                Console.WriteLine(filePath + " created!");
+            }
+            catch (Exception ex)
+            {
+                // Let the user know the file has not been created
+                Console.WriteLine("Failed to create file: " + ex.Message);
+            }
         }
 
         // Display file given path name provided by the user
