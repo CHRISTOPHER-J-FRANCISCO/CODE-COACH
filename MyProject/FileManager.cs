@@ -89,76 +89,59 @@ namespace CommandLineApp
             }
         }
 
-        private static void ActuallyEditFile(string filePath)
+        // Edit file given path name provided by the user
+        public static void EditFile()
         {
+            // Get file name path provided by the user
+            string filePath = GetFileNamePath();
             // Display content header 
             Console.Clear();
             int numDashes = 50;
             // Display content file
-            string fileContents = File.ReadAllText(filePath);
-            // Display editing file
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("Type changes, backspace to delete, and esc to save.!");
-                Console.WriteLine(new string('-', numDashes) + " Editing: " + filePath + " " + new string('-', numDashes));
-                Console.Write(fileContents);
-                var userInput = Console.ReadKey();
-                if (userInput.Key == ConsoleKey.Backspace && fileContents.Length > 0)
-                {
-                    fileContents = fileContents.Substring(0, fileContents.Length - 1);
-                }
-                else if (userInput.Key != ConsoleKey.Enter && userInput.Key != ConsoleKey.Escape)
-                {
-                    fileContents += userInput.KeyChar;
-                }
-                else if (userInput.Key == ConsoleKey.Enter)
-                {
-                    fileContents += "\n";
-                }
-                else if (userInput.Key == ConsoleKey.Escape)
-                {
-                    break;
-                }
-            }
-            // Save editing file
-            Console.WriteLine();
-            Console.WriteLine(filePath + " saved!");
-            File.WriteAllText(filePath, fileContents);
-        }
-
-        // prompts the user which file to edit otherwise the user is warned
-        public static void EditFile()
-        {
             try
             {
-                foreach (string file in Directory.EnumerateFiles(folderPath))
+                string fileContents = File.ReadAllText(filePath);
+                // Display editing file
+                while (true)
                 {
-                    Console.WriteLine(file);
-                }
-                Console.Write("Enter file name (to edit): ");
-                string input = Console.ReadLine();
-                bool fileFound = false;
-                foreach (string file in Directory.EnumerateFiles(folderPath))
-                {
-                    if (Path.GetFileName(file) == input)
+                    // Display instructions for editing the file and the header
+                    Console.Clear();
+                    Console.WriteLine("Type changes, backspace to delete, and esc to save.!");
+                    Console.WriteLine(new string('-', numDashes) + " Editing: " + filePath + " " + new string('-', numDashes));
+                    // Display file contents
+                    Console.Write(fileContents);
+                    // Get user input
+                    var userInput = Console.ReadKey();
+                    // If there's something to delete
+                    if (userInput.Key == ConsoleKey.Backspace && fileContents.Length > 0)
                     {
-                        fileFound = true;
-                        ActuallyEditFile(folderPath + "/" + input);
+                        // Delete the latest character
+                        fileContents = fileContents.Substring(0, fileContents.Length - 1);
+                    }
+                    // If the key wasn't enter or escape the user had something to enter
+                    else if (userInput.Key != ConsoleKey.Enter && userInput.Key != ConsoleKey.Escape)
+                    {
+                        fileContents += userInput.KeyChar;
+                    }
+                    // If the key was enter add a next line
+                    else if (userInput.Key == ConsoleKey.Enter)
+                    {
+                        fileContents += "\n";
+                    }
+                    // If the key was escape stop editing
+                    else if (userInput.Key == ConsoleKey.Escape)
+                    {
+                        break;
                     }
                 }
-                if (!fileFound)
-                {
-                    Console.WriteLine(input + " not found!");
-                }
+                // Save editing file
+                Console.WriteLine();
+                Console.WriteLine(filePath + " saved!");
+                File.WriteAllText(filePath, fileContents);
             }
-            catch (DirectoryNotFoundException)
+            catch (Exception exce)
             {
-                Console.WriteLine("Error finding directory!");
-            }
-            catch (IOException)
-            {
-                Console.WriteLine("Error reading directory!");
+                Console.WriteLine("Error editing file: " + exce.Message);
             }
         }
 
