@@ -10,6 +10,7 @@ namespace CommandLineApp
         // Ensures the folder exists, if not creates the folder path
         private static void EnsureFolderExists()
         {
+            // If the storage folder doesn't exist let the user know and create it
             if (!Directory.Exists(folderPath))
             {
                 Console.WriteLine("Directory doesn't exist! Directory created!");
@@ -17,6 +18,7 @@ namespace CommandLineApp
             }
             else
             {
+                // If the storage folder exists, let the user know
                 Console.WriteLine("Directory found!");
             }
         }
@@ -24,20 +26,25 @@ namespace CommandLineApp
         // Creates a file given the file name path
         public static void CreateFile()
         {
+            // Prompot the file name
             Console.Clear();
             Console.Write("Enter file name: ");
             string fileName = Console.ReadLine();
+            // Ensure the storage folder exists
             EnsureFolderExists();
+            // Let the user know the file has been created
             File.Create(folderPath + "/" + fileName);
             Console.WriteLine(folderPath + "/" + fileName + " created!");
         }
 
-        // actually displays the content of the file name path
+        // Actually displays the content of the file name path
         private static void ActuallyDisplayFile(string filePath)
         {
+            // Display the header
             Console.Clear();
             int numDashes = 50;
             Console.WriteLine(new string('-', numDashes) + " Displaying: " + filePath + " " + new string('-', numDashes));
+            // Print the contents of the selected file
             using (StreamReader reader = new StreamReader(filePath))
             {
                 string fileContents = reader.ReadToEnd();
@@ -46,9 +53,10 @@ namespace CommandLineApp
             Console.WriteLine();
         }
 
-        // prompts the user to select which pile to display, otherwise the user is warned
+        // Prompts the user to select which pile to display, otherwise the user is warned
         public static void DisplayFile()
         {
+
             try
             {
                 foreach (string file in Directory.EnumerateFiles(folderPath))
@@ -154,8 +162,9 @@ namespace CommandLineApp
             }
         }
 
-        public static void ActuallyDeleteFile(string filePathName)
+        public static void DeleteFile()
         {
+            string filePathName = GetFileNamePath();
             try
             {
                 File.Delete(filePathName);
@@ -167,50 +176,21 @@ namespace CommandLineApp
             }
         }
 
-        public static void DeleteFile()
-        {
-            try
-            {
-                foreach (string file in Directory.EnumerateFiles(folderPath))
-                {
-                    Console.WriteLine(file);
-                }
-                Console.Write("Enter file name (to delete): ");
-                string input = Console.ReadLine();
-                bool fileFound = false;
-                foreach (string file in Directory.EnumerateFiles(folderPath))
-                {
-                    if (Path.GetFileName(file) == input)
-                    {
-                        fileFound = true;
-                        ActuallyDeleteFile(folderPath + "/" + input);
-                    }
-                }
-                if (!fileFound)
-                {
-                    Console.WriteLine(input + " not found!");
-                }
-            }
-            catch (DirectoryNotFoundException)
-            {
-                Console.WriteLine("Error finding directory!");
-            }
-            catch (IOException)
-            {
-                Console.WriteLine("Error reading directory!");
-            }
-        }
-
+        // Returns the path of the available files based on user input selection - FIX USE ONLY 2 RETURNS
         public static string GetFileNamePath()
         {
             try
             {
+                // Iterate through the storage directory to print each file within - FIX CONVERT TO O(1)
                 foreach (string file in Directory.EnumerateFiles(folderPath))
                 {
                     Console.WriteLine(file);
                 }
+                // Prompt user
                 Console.Write("Enter file name (to retrieve): ");
+                // Obtain input
                 string input = Console.ReadLine();
+                // Determine if the file was found - FIX CONVERT TO O(1)
                 bool fileFound = false;
                 foreach (string file in Directory.EnumerateFiles(folderPath))
                 {
@@ -220,21 +200,25 @@ namespace CommandLineApp
                         return folderPath + "/" + input;
                     }
                 }
+                // if file wasn't found return literally nothing
                 if (!fileFound)
                 {
                     return "";
                 }
             }
+            // let the user know the storage folder doesn't exist
             catch (DirectoryNotFoundException)
             {
                 Console.WriteLine("Error finding directory!");
                 return "";
             }
+            // let the user know it had toruble reading storage directory
             catch (IOException)
             {
                 Console.WriteLine("Error reading directory!");
                 return "";
             }
+            // return nothing literally
             return "";
         }
     }
