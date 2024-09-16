@@ -5,7 +5,7 @@ namespace CommandLineApp
 {
     public class FileManager
     {
-        private static string folderPath = "SnippetsDirectory";
+        private static readonly string folderPath = "SnippetsDirectory";
 
         // Ensures the folder exists, if not creates the folder path
         private static void EnsureFolderExists()
