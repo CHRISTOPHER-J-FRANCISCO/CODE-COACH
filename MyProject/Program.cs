@@ -35,6 +35,12 @@ namespace CommandLineApp
                 Console.Write(availableCommands);
                 // prompt user command
                 string input = Console.ReadLine();
+                // Make sure input is not null or empty
+                if (string.IsNullOrEmpty(input))
+                {
+                    Console.WriteLine("User command cannot be null or empty.");
+                    continue;
+                }
                 // identify action for user command
                 switch (input.ToLower())
                 {
