@@ -66,7 +66,7 @@ namespace CommandLineApp
                         break;
                     // coach user on a file
                     case "code-coach":
-                        CodeCoach.StartCoaching(FileManager.GetFileNamePath());
+                        CodeCoach.StartCoaching();
                         break;
                     // just clear the console
                     default:
