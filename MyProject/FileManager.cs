@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace CommandLineApp
 {
@@ -32,7 +33,7 @@ namespace CommandLineApp
             EnsureFolderExists();
             Console.Write("Enter file name: ");
             // Get file name
-             string fileName = Console.ReadLine();
+            string fileName = Console.ReadLine();
             // Ensures the fileName is not null or empty
             if (string.IsNullOrEmpty(fileName))
             {
@@ -45,7 +46,7 @@ namespace CommandLineApp
             try
             {
                 // Using ensures the File created is closed
-                using(File.Create(filePath)) {};
+                using (File.Create(filePath)) { };
                 // Let the user know the file has been created
                 Console.WriteLine(filePath + " created!");
             }
@@ -150,9 +151,15 @@ namespace CommandLineApp
         {
             try
             {
-                // Iterate through the storage directory to print each file within - FIX CONVERT TO O(1)
+                // Iterate through the storage directory to print each file within storing each string file in a map
+                var fileMap = new Dictionary<string, string>();
                 foreach (string file in Directory.EnumerateFiles(folderPath))
                 {
+                    string fileName = Path.GetFileName(file);
+                    if (!fileMap.ContainsKey(fileName))
+                    {
+                        fileMap[fileName] = file;
+                    }
                     Console.WriteLine(file);
                 }
                 // Prompt user
@@ -165,21 +172,13 @@ namespace CommandLineApp
                     Console.WriteLine("File name cannot be null or empty.");
                     return "";
                 }
-                // Determine if the file was found - FIX CONVERT TO O(1)
-                bool fileFound = false;
-                foreach (string file in Directory.EnumerateFiles(folderPath))
+                // Determine if the file was found 
+                if (fileMap.ContainsKey(input))
                 {
-                    if (Path.GetFileName(file) == input)
-                    {
-                        fileFound = true;
-                        return folderPath + "/" + input;
-                    }
+                    string fullPath = fileMap[input];
+                    return fullPath;
                 }
-                // if file wasn't found return literally nothing
-                if (!fileFound)
-                {
-                    return "";
-                }
+                return "";
             }
             // let the user know the storage folder doesn't exist
             catch (DirectoryNotFoundException)
@@ -193,8 +192,6 @@ namespace CommandLineApp
                 Console.WriteLine("Error reading directory!");
                 return "";
             }
-            // return nothing literally
-            return "";
         }
     }
 }
