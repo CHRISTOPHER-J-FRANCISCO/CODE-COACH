@@ -159,6 +159,11 @@ namespace CommandLineApp
                 Console.Write("Enter file name (to retrieve): ");
                 // Obtain input
                 string input = Console.ReadLine();
+                if (string.IsNullOrEmpty(input))
+                {
+                    Console.WriteLine("File name cannot be null or empty.");
+                    return "";
+                }
                 // Determine if the file was found - FIX CONVERT TO O(1)
                 bool fileFound = false;
                 foreach (string file in Directory.EnumerateFiles(folderPath))
