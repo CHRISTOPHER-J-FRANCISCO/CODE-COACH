@@ -37,9 +37,11 @@ namespace CommandLineApp
             Console.WriteLine(folderPath + "/" + fileName + " created!");
         }
 
-        // Actually displays the content of the file name path
-        private static void ActuallyDisplayFile(string filePath)
+        // Display file given path name provided by the user
+        public static void DisplayFile()
         {
+            // Get file name path provided by the user
+            string filePath = GetFileNamePath();
             // Display the header
             Console.Clear();
             int numDashes = 50;
@@ -51,42 +53,6 @@ namespace CommandLineApp
                 Console.WriteLine(fileContents);
             }
             Console.WriteLine();
-        }
-
-        // Prompts the user to select which pile to display, otherwise the user is warned
-        public static void DisplayFile()
-        {
-
-            try
-            {
-                foreach (string file in Directory.EnumerateFiles(folderPath))
-                {
-                    Console.WriteLine(file);
-                }
-                Console.Write("Enter file name (to display): ");
-                string input = Console.ReadLine();
-                bool fileFound = false;
-                foreach (string file in Directory.EnumerateFiles(folderPath))
-                {
-                    if (Path.GetFileName(file) == input)
-                    {
-                        fileFound = true;
-                        ActuallyDisplayFile(folderPath + "/" + input);
-                    }
-                }
-                if (!fileFound)
-                {
-                    Console.WriteLine(input + " not found!");
-                }
-            }
-            catch (DirectoryNotFoundException)
-            {
-                Console.WriteLine("Error finding directory!");
-            }
-            catch (IOException)
-            {
-                Console.WriteLine("Error reading directory!");
-            }
         }
 
         // Edit file given path name provided by the user
