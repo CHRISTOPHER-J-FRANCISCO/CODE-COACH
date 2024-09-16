@@ -32,7 +32,13 @@ namespace CommandLineApp
             EnsureFolderExists();
             Console.Write("Enter file name: ");
             // Get file name
-            string fileName = Console.ReadLine();
+             string fileName = Console.ReadLine();
+            // Ensures the fileName is not null or empty
+            if (string.IsNullOrEmpty(fileName))
+            {
+                Console.WriteLine("File name cannot be null or empty.");
+                return;
+            }
             // Create file path
             string filePath = Path.Combine(folderPath, fileName);
             // Attempts to create file
