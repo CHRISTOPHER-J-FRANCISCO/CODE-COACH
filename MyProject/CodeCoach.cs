@@ -21,6 +21,19 @@ namespace CommandLineApp
                 // iterate through every index
                 while (coachingIndex < chars.Length)
                 {
+                    // Remove // comments
+                    if (chars[coachingIndex] == '/' && chars[coachingIndex + 1] == '/')
+                    {
+
+                        while (chars[coachingIndex] != '\n')
+                        {
+                            totalUserInput += chars[coachingIndex++];
+                        }
+                        totalUserInput += chars[coachingIndex++];
+                        PrintHeader(filePath + ' ' + Math.Round(totalUserInput.Length * 100.0 / trueLength) + "%");
+                        Console.Write(totalUserInput);
+                        continue;
+                    }
                     // Have bogus input ready
                     ConsoleKeyInfo userInput = Console.ReadKey(true);  
                     // Store if its either an enter key or a char key
