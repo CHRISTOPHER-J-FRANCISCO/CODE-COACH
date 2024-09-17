@@ -3,17 +3,8 @@ using System.IO;
 
 namespace CommandLineApp
 {
-    /*
-        Fix: Behave differenly from different kind of spaces
-    */
-    class CodeCoach {
-         /** save the contents of the file, 
-                whatever is next that is a character of some sort 
-                prompt the user for it without showing it 
-                until the user types it, 
-                if the user types incorrectly dont save/show it
-                if its a space or nextline just show it
-        **/
+    class CodeCoach
+    {
         public static void GuideStudent(string filePath)
         {
             // read the file 
@@ -30,34 +21,36 @@ namespace CommandLineApp
                 // iterate through every index
                 while (coachingIndex < chars.Length)
                 {
-                    // save input 
-                    System.ConsoleKeyInfo userInput = new ConsoleKeyInfo(' ', ConsoleKey.Spacebar, false, false, false);
-                    // if input is not a whitespace, initially false
-                    if (!Char.IsWhiteSpace(chars[coachingIndex]))
+                    // Have bogus input ready
+                    ConsoleKeyInfo userInput = Console.ReadKey(true);  
+                    // Store if its either an enter key or a char key
+                    if (userInput.KeyChar == '\n')
                     {
-                        userInput = Console.ReadKey(true);
+                        Console.WriteLine("Potato");
                     }
-                    // if the key matches the file char
-                    if (userInput.KeyChar == chars[coachingIndex])
+                    bool isEnterKey = userInput.Key == ConsoleKey.Enter && chars[coachingIndex] == '\n';
+                    bool isAKeyChar = userInput.KeyChar == chars[coachingIndex];
+                    // Interpret both
+                    if (isAKeyChar || isEnterKey)
                     {
-                        // print header
+                        // Print header
                         PrintHeader(filePath + ' ' + Math.Round(totalUserInput.Length * 100.0 / trueLength) + "%");
-                        // print latest user input
-                        totalUserInput += userInput.KeyChar;
+                        // Add to input
+                        if (isEnterKey) {
+                            totalUserInput += '\n';
+                        } 
+                        else if (isAKeyChar)
+                        {
+                            totalUserInput += userInput.KeyChar;
+                        } 
                         Console.Write(totalUserInput);
-                        // move onto next char
+                        // Move onto next char
                         coachingIndex++;
                     }
-                    // is a white space 
-                    else if (Char.IsWhiteSpace(chars[coachingIndex]))
-                    {
-                        // add white space to user input // basically dont waste time learning
-                        totalUserInput += ConsoleKey.Enter;
-                    }
                 }
-                // prints user header
+                // Prints user header when user complete
                 PrintHeader(filePath + " 100%");
-                // prints entire user input
+                // Prints entire user input
                 Console.Write(totalUserInput);
 
             }
@@ -65,17 +58,18 @@ namespace CommandLineApp
             Console.WriteLine("");
         }
 
-        // prints header
+        // Prints header
         public static void PrintHeader(string filePath)
         {
             Console.Clear();
             int numDashes = 50;
             Console.WriteLine(new string('-', numDashes) + " Coaching: " + filePath + " " + new string('-', numDashes));
         }
-        
-        // start coaching the student
-        public static void StartCoaching(string filePath)
+
+        // Start coaching the student
+        public static void StartCoaching()
         {
+            string filePath = FileManager.GetFileNamePath();
             PrintHeader(filePath);
             GuideStudent(filePath);
         }
