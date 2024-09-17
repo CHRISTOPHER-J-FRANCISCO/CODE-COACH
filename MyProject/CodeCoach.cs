@@ -21,7 +21,7 @@ namespace CommandLineApp
                 // iterate through every index
                 while (coachingIndex < chars.Length)
                 {
-                    // Remove // comments
+                    // Skip // comments
                     if (chars[coachingIndex] == '/' && chars[coachingIndex + 1] == '/')
                     {
 
@@ -29,6 +29,20 @@ namespace CommandLineApp
                         {
                             totalUserInput += chars[coachingIndex++];
                         }
+                        totalUserInput += chars[coachingIndex++];
+                        PrintHeader(filePath + ' ' + Math.Round(totalUserInput.Length * 100.0 / trueLength) + "%");
+                        Console.Write(totalUserInput);
+                        continue;
+                    }
+                    // Skip /* */ comments
+                    else if (chars[coachingIndex] == '/' && chars[coachingIndex + 1] == '*')
+                    {
+                        
+                        while (chars[coachingIndex] != '*' || chars[coachingIndex + 1] != '/')
+                        {
+                            totalUserInput += chars[coachingIndex++];
+                        }
+                        totalUserInput += chars[coachingIndex++];
                         totalUserInput += chars[coachingIndex++];
                         PrintHeader(filePath + ' ' + Math.Round(totalUserInput.Length * 100.0 / trueLength) + "%");
                         Console.Write(totalUserInput);
